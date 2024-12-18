@@ -13,7 +13,7 @@
                 {{-- Contact Form --}}
                 <div class="bg-white shadow-lg rounded-lg p-8">
                     <h2 class="text-2xl font-bold text-[#073F62] mb-6">Send Us a Message</h2>
-                    <form action="/submit-contact" method="POST">
+                    <form id="contactForm" action="{{ route('contact.submit') }}" method="POST">
                         @csrf
                         <div class="space-y-4">
                             <div>
@@ -46,8 +46,106 @@
                                 </button>
                             </div>
                         </div>
+                        <div id="loadingSpinner" class="spinner-border" style="display: none;"></div>
+
+                        <div id="successMessage" style="display: none; color: green;">Message sent successfully!</div>
+                        <div id="errorMessage" style="display: none; color: red;">Failed to send the message. Please try
+                            again
+                            later.</div>
                     </form>
+
                 </div>
+                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                <style>
+                    .spinner-border {
+                        display: inline-block;
+                        width: 24px;
+                        height: 24px;
+                        border: 4px solid rgba(0, 0, 0, 0.1);
+                        /* Light gray */
+                        border-top: 4px solid #00A550;
+                        /* Green */
+                        border-radius: 50%;
+                        animation: spin 1s linear infinite;
+                    }
+
+                    @keyframes spin {
+                        from {
+                            transform: rotate(0deg);
+                        }
+
+                        to {
+                            transform: rotate(360deg);
+                        }
+                    }
+                </style>
+
+                <script>
+                    document.getElementById('contactForm').addEventListener('submit', function(e) {
+                        e.preventDefault(); // Prevent the default form submission
+
+                        const form = e.target;
+                        const spinner = document.getElementById('loadingSpinner');
+                        const successMessage = document.getElementById('successMessage');
+                        const errorMessage = document.getElementById('errorMessage');
+
+                        // Clear any previous messages
+                        successMessage.style.display = 'none';
+                        errorMessage.style.display = 'none';
+
+                        // Show the loading spinner
+                        spinner.style.display = 'inline-block';
+
+                        // Prepare form data
+                        const formData = new FormData(form);
+
+                        // Submit the form using Axios
+                        axios.post(form.action, formData)
+                            .then(response => {
+                                spinner.style.display = 'none'; // Hide spinner
+                                if (response.data.success) {
+                                    successMessage.style.display = 'block';
+                                    successMessage.innerText = response.data.message; // Show success message
+                                    form.reset(); // Reset form fields
+                                } else {
+                                    errorMessage.style.display = 'block';
+                                    errorMessage.innerText = 'An unexpected error occurred.';
+                                }
+                            })
+                            .catch(error => {
+                                spinner.style.display = 'none'; // Hide spinner
+                                errorMessage.style.display = 'block';
+
+                                if (error.response) {
+                                    // Handle validation errors
+                                    errorMessage.innerText = error.response.data.message || 'Form submission failed.';
+                                } else {
+                                    // General error
+                                    errorMessage.innerText = 'An error occurred. Please try again later.';
+                                }
+
+                                console.error('Form submission error:', error); // Debugging info
+                            });
+                    });
+                </script>
+
+
+                {{-- <style>
+                    .spinner-border {
+                        border: 4px solid rgba(0, 0, 0, 0.1);
+                        border-top-color: #00A550;
+                        border-radius: 50%;
+                        width: 24px;
+                        height: 24px;
+                        animation: spin 1s linear infinite;
+                    }
+
+                    @keyframes spin {
+                        to {
+                            transform: rotate(360deg);
+                        }
+                    }
+                </style> --}}
 
                 {{-- Contact Information --}}
                 <div class="bg-[#00A550]/10 rounded-lg p-8 space-y-6">

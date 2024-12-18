@@ -169,7 +169,7 @@
                     </p>
 
                     <div class="flex space-x-4 justify-center">
-                        <a href="https://t.me/expertwager" target="_blank"
+                        <a href="https://t.me/binaryexpertwager" target="_blank"
                             class="inline-block bg-[#0088CC] text-white px-6 py-3 rounded-lg hover:bg-[#073F62] transition-colors">
                             Join Channel
                         </a>
