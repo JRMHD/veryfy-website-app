@@ -23,7 +23,7 @@
 
             <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <div class="group">
-                    <a href="/kenya-power-bill"
+                    <a href="/bill-form"
                         class="block bg-[#00A550]/10 hover:bg-[#00A550]/20 transition-colors rounded-lg p-6 text-center">
                         <img src="\images\kplc logo.png" alt="Kenya Power Logo"
                             class="h-16 w-16 mx-auto mb-4 object-contain">
@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <div class="group">
-                    <a href="/nairobi-water-bill"
+                    <a href="/water-bill-form"
                         class="block bg-[#073F62]/10 hover:bg-[#073F62]/20 transition-colors rounded-lg p-6 text-center">
                         <img src="\images\nairobi water logo.png" alt="Nairobi Water Logo"
                             class="h-16 w-16 mx-auto mb-4 object-contain">
@@ -41,7 +41,7 @@
                     </a>
                 </div>
                 <div class="group">
-                    <a href="/affidavit-confirmation"
+                    <a href="/"
                         class="block bg-[#00A550]/10 hover:bg-[#00A550]/20 transition-colors rounded-lg p-6 text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-[#073F62]" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
