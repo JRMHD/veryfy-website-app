@@ -13,9 +13,14 @@
             --border-color: #e9ecef;
         }
 
+        @page {
+            margin: 0cm 0cm;
+        }
+
+
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
+            margin: 2cm;
             padding: 40px;
             color: #333;
             background-color: #fff;
@@ -54,6 +59,19 @@
             color: var(--secondary-color);
             font-size: 20px;
             margin: 0;
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            font-weight: bold;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 70px;
+            color: rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: -1;
+            pointer-events: none;
         }
 
         .bill-info {
@@ -162,6 +180,11 @@
 </head>
 
 <body>
+
+    @if (isset($watermark))
+        <div class="watermark">{{ $watermark }}</div>
+    @endif
+
     <div class="bill-container">
         <div class="header">
             <div class="logo-section">

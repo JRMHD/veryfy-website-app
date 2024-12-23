@@ -44,12 +44,15 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 Route::post('/submit-contact', [ContactController::class, 'submitContact'])->name('contact.submit');
 
-Route::get('/bill-form', [BillController::class, 'showForm'])->name('bill.form');
-Route::post('/bill-preview', [BillController::class, 'preview'])->name('bill.preview');
-Route::get('/bill-download', [BillController::class, 'download'])->name('bill.download');
-Route::post('/bill-send-email', [BillController::class, 'sendEmail'])->name('bill.sendEmail');
+Route::get('bill/form', [BillController::class, 'showForm'])->name('bill.form');
+Route::post('bill/preview', [BillController::class, 'preview'])->name('bill.preview');
+Route::post('bill/download/{withWatermark?}', [BillController::class, 'download'])->name('bill.download');
+
+Route::post('bill/send-email', [BillController::class, 'sendEmail'])->name('bill.sendEmail');;
 
 Route::get('/water-bill-form', [WaterBillController::class, 'showForm'])->name('water.bill.form');
 Route::post('/water-bill-preview', [WaterBillController::class, 'preview'])->name('water.bill.preview');
-Route::get('/water-bill-download', [WaterBillController::class, 'download'])->name('water.bill.download');
+Route::get('/water-bill/preview', [WaterBillController::class, 'preview'])->name('water.bill.preview');
+Route::get('/water-bill/download/{withWatermark}', [WaterBillController::class, 'download'])->name('water.bill.download');
+
 Route::post('/water-bill-send-email', [WaterBillController::class, 'sendEmail'])->name('water.bill.sendEmail');

@@ -4,27 +4,61 @@
 <head>
     <title>Power Bill - Kenya Panel Lighting Company</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: #333;
+        :root {
+            --primary-color: #073F62;
+            --secondary-color: #00A550;
+            --accent-color: #f8f9fa;
+            --border-color: #e9ecef;
         }
 
-        .container {
-            max-width: 800px;
-            margin: auto;
+        @page {
+            margin: 0cm 0cm;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 2cm;
             padding: 40px;
+            color: #333;
+            background-color: #fff;
+            position: relative;
+            /* Ensure watermark stays relative to the body */
+        }
+
+        .watermark {
+            position: absolute;
+            /* Ensures watermark is placed behind the content */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 70px;
+            color: rgba(0, 0, 0, 0.1);
+            /* Light gray color for watermark */
+            font-weight: bold;
+            text-align: center;
+            z-index: -1;
+            /* Watermark stays behind content */
+            pointer-events: none;
+            /* Prevent watermark from interfering with interactions */
+        }
+
+        .bill-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .header {
-            border-bottom: 2px solid #073F62;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px;
+            border-radius: 12px 12px 0 0;
+            position: relative;
         }
 
-        .company-info {
+        .logo-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -32,81 +66,127 @@
         }
 
         .company-name {
-            color: #073F62;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .bill-title {
+            color: var(--secondary-color);
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .bill-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            background-color: var(--accent-color);
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .bill-info div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .details {
+            padding: 30px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .meter-readings {
+            margin-top: 30px;
+            background-color: var(--accent-color);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .readings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .total-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-amount {
             font-size: 24px;
             font-weight: bold;
         }
 
-        .bill-title {
-            background-color: #073F62;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        .bill-sections {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            color: #00A550;
-            font-size: 18px;
+        .due-date {
+            color: var(--secondary-color);
             font-weight: bold;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #00A550;
-            padding-bottom: 5px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed #ddd;
-            padding-bottom: 5px;
-        }
-
-        .label {
-            font-weight: bold;
-            color: #555;
-        }
-
-        .value {
-            color: #333;
-        }
-
-        .total-amount {
-            background-color: #00A550;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: right;
             margin-top: 20px;
         }
 
         .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #073F62;
             text-align: center;
+            padding: 20px 30px;
+            background-color: var(--accent-color);
+            border-radius: 0 0 12px 12px;
             font-size: 14px;
             color: #666;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .details-grid,
+            .readings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bill-info {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- Watermark -->
+    @if (isset($watermark))
+        <div class="watermark">{{ $watermark }}</div>
+    @endif
     <div class="container">
         <div class="header">
             <div class="company-info">

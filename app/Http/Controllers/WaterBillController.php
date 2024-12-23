@@ -14,20 +14,41 @@ class WaterBillController extends Controller
         return view('water-bill-form');
     }
 
-    // Preview the generated water bill
+    // Preview the generated water bill with a watermark
     public function preview(Request $request)
     {
+        // Store form data in session
         $data = $request->all();
-        $pdf = Pdf::loadView('water-bill-pdf', compact('data'));
+        session(['water_bill_data' => $data]);  // Store data in session
+
+        // Pass the watermark text to the view
+        $pdf = Pdf::loadView('water-bill-pdf', ['data' => $data, 'watermark' => 'VERIFYWAGER.CO.KE']);
 
         return view('water-bill-preview', compact('pdf', 'data'));
     }
-
-    // Download the water bill as a PDF
-    public function download(Request $request)
+    // Download the water bill as a clean PDF (no watermark)
+    public function download(Request $request, $withWatermark = false)
     {
-        $data = $request->all();
-        $pdf = Pdf::loadView('water-bill-pdf', compact('data'));
+        // Retrieve data from session
+        $data = session('water_bill_data');
+
+        if (!$data) {
+            return response()->json(['error' => 'Form data is missing in the session.'], 400);
+        }
+
+        // Check if 'account_number' exists in the data
+        if (!isset($data['account_number'])) {
+            return response()->json(['error' => 'Account number is missing in the session data.'], 400);
+        }
+
+        // Generate the PDF
+        if ($withWatermark) {
+            // PDF with watermark
+            $pdf = Pdf::loadView('water-bill-pdf', ['data' => $data, 'watermark' => 'VERIFYWAGER.CO.KE']);
+        } else {
+            // Clean PDF without watermark
+            $pdf = Pdf::loadView('water-bill-pdf', ['data' => $data]);
+        }
 
         return $pdf->download('water-bill.pdf');
     }
@@ -56,7 +77,7 @@ class WaterBillController extends Controller
             'email' => 'required|email',
         ]);
 
-        // Generate the PDF
+        // Generate the PDF without a watermark
         $pdf = Pdf::loadView('water-bill-pdf', ['data' => $validatedData]);
 
         // Send the email with the attached PDF
